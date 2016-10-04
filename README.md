@@ -1,4 +1,4 @@
-Last update `beta-00419`
+Last updated for `0.9.5`
 
 # Discord.Net-Example
-An example bot for Discord.Net 1.0
+An example bot for Discord.Net 0.9
