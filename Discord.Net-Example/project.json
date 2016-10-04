@@ -5,8 +5,8 @@
   },
 
     "dependencies": {
-        "Discord.Net": "1.0.0-beta-00419",
-        "Discord.Net.Commands": "1.0.0-beta-00419",
+        "Discord.Net": "1.0.0-beta-00420",
+        "Discord.Net.Commands": "1.0.0-beta-00420",
         "Microsoft.NETCore.App": "1.0.1"
     },
 

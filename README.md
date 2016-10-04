@@ -1,4 +1,4 @@
-Last update `beta-00419`
+Last update `beta-00420`
 
 ## Discord.Net-Example
 An example bot for [Discord.Net 1.0](https://github.com/RogueException/Discord.Net/tree/dev)
