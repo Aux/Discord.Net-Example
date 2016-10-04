@@ -42,7 +42,7 @@ namespace Example.Modules
         [MinPermissions(AccessLevel.User)]
         public async Task Say(IUserMessage msg, params int[] numbers)
         {
-            var sum = numbers.Sum();
+            int sum = numbers.Sum();
             await msg.Channel.SendMessageAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
         }
     }
