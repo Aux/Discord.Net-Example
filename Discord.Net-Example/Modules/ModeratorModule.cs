@@ -38,7 +38,7 @@ namespace Example.Modules
                                 u = e.Message.MentionedUsers.FirstOrDefault();
                             else if (e.Server.FindUsers(findUser).Any())    // Check if the user parameter's text matches any users.
                                 u = e.Server.FindUsers(findUser).FirstOrDefault();
-                            else if (ulong.TryParse(findUser, out id))      // Check if the user parameter's text matches any users.
+                            else if (ulong.TryParse(findUser, out id))      // Check if the user parameter's text is an id.
                                 u = e.Server.GetUser(id);
                         }
 
