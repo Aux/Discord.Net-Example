@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Module, Name("Example")]
+    [Module, Name("Moderator")]
     [RequireContext(ContextType.Guild)]
     public class ModeratorModule
     {
