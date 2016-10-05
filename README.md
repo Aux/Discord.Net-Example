@@ -2,7 +2,7 @@ Last updated for `0.9.5`
 
 ## Discord.Net-Example
 
-An example bot for [Discord.Net 0.9](https://github.com/RogueException/Discord.Net)
+An example bot for [Discord.Net 0.9](https://github.com/RogueException/Discord.Net). If you would like a specific example added to this project, send an `@Auxesis#8522` in the [Discord API](https://discordapp.com/invite/discord-api) server with your request.
 
 ### Other Examples  
 #### 0.9
