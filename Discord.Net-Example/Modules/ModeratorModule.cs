@@ -21,10 +21,10 @@ namespace Example.Modules
             _client = client;
         }
 
-        [Command("say"), Alias("s")]
-        [Remarks("Make the bot say something")]
+        [Command("kick")]
+        [Remarks("Kick the specified user.")]
         [MinPermissions(AccessLevel.ServerMod)]
-        public async Task Say(IUserMessage msg, [Remainder]IUser user)
+        public async Task Kick(IUserMessage msg, [Remainder]IUser user)
         {
             var u = user as IGuildUser;
             await msg.Channel.SendMessageAsync($"cya {u.Mention} :wave:");
