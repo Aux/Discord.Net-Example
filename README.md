@@ -1,4 +1,4 @@
-Last updated for `0.9.5`
+Last updated for `0.9.6`
 
 ## Discord.Net-Example
 
