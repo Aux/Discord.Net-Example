@@ -10,40 +10,33 @@ using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Module, Name("Math")]
-    public class MathModule
+    [Name("Math")]
+    public class MathModule : ModuleBase
     {
-        private DiscordSocketClient _client;
-
-        public MathModule(DiscordSocketClient client)
-        {
-            _client = client;
-        }
-
         [Command("isinteger")]
         [Remarks("Check if the input text is a whole number.")]
         [MinPermissions(AccessLevel.User)]
-        public async Task IsInteger(IUserMessage msg, int number)
+        public async Task IsInteger(int number)
         {
-            await msg.Channel.SendMessageAsync($"The text {number} is a number!");
+            await ReplyAsync($"The text {number} is a number!");
         }
 
         [Command("multiply")]
         [Remarks("Get the product of two numbers.")]
         [MinPermissions(AccessLevel.User)]
-        public async Task Say(IUserMessage msg, int a, int b)
+        public async Task Say(int a, int b)
         {
             int product = a * b;
-            await msg.Channel.SendMessageAsync($"The product of `{a} * {b}` is `{product}`.");
+            await ReplyAsync($"The product of `{a} * {b}` is `{product}`.");
         }
 
         [Command("addmany")]
         [Remarks("Get the sum of many numbers")]
         [MinPermissions(AccessLevel.User)]
-        public async Task Say(IUserMessage msg, params int[] numbers)
+        public async Task Say(params int[] numbers)
         {
             int sum = numbers.Sum();
-            await msg.Channel.SendMessageAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
+            await ReplyAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
         }
     }
 }

@@ -10,25 +10,17 @@ using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Module, Name("Moderator")]
+    [Name("Moderator")]
     [RequireContext(ContextType.Guild)]
-    public class ModeratorModule
+    public class ModeratorModule : ModuleBase
     {
-        private DiscordSocketClient _client;
-
-        public ModeratorModule(DiscordSocketClient client)
-        {
-            _client = client;
-        }
-
         [Command("kick")]
         [Remarks("Kick the specified user.")]
         [MinPermissions(AccessLevel.ServerMod)]
-        public async Task Kick(IUserMessage msg, [Remainder]IUser user)
+        public async Task Kick([Remainder]SocketGuildUser user)
         {
-            var u = user as IGuildUser;
-            await msg.Channel.SendMessageAsync($"cya {u.Mention} :wave:");
-            await u.KickAsync();
+            await ReplyAsync($"cya {user.Mention} :wave:");
+            await user.KickAsync();
         }
     }
 }

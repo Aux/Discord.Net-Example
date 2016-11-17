@@ -18,7 +18,7 @@ namespace Example.Types
         public static readonly string appdir = AppContext.BaseDirectory;
 
         /// <summary> Your bot's command prefix. Please don't pick `!`. </summary>
-        public char Prefix { get; set; }
+        public string Prefix { get; set; }
         /// <summary> Ids of users who will have owner access to the bot. </summary>
         public ulong[] Owners { get; set; }
         /// <summary> Your bot's login token. </summary>
@@ -31,27 +31,22 @@ namespace Example.Types
             Token = "";
         }
 
-        /// <summary> Save the current configuration object to a file. </summary>
-        /// <param name="file"> The configuration file's location. </param>
-        public void SaveFile(string file)
+        /// <summary> Save the configuration to the specified file location. </summary>
+        public void Save(string dir = "data/configuration.json")
         {
-            string loc = Path.Combine(appdir, file);
-            string json = ToJson();
-            File.WriteAllText(loc, json);
+            string file = Path.Combine(appdir, dir);
+            File.WriteAllText(file, ToJson());
         }
 
-        /// <summary> Load the information saved in your configuration file. </summary>
-        /// <param name="file"> The configuration file's location. </param>
-        public static Configuration LoadFile(string file)
+        /// <summary> Load the configuration from the specified file location. </summary>
+        public static Configuration Load(string dir = "data/configuration.json")
         {
-            string loc = Path.Combine(appdir, file);
-            return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(loc));
+            string file = Path.Combine(appdir, dir);
+            return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(file));
         }
 
-        /// <summary> A quick method to parse the configuration to a json string. </summary>
+        /// <summary> Convert the configuration to a json string. </summary>
         public string ToJson()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+            => JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }

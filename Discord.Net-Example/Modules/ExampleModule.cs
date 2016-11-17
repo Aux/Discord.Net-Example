@@ -10,55 +10,40 @@ using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Module, Name("Example")]
-    public class ExampleModule
+    [Name("Example")]
+    public class ExampleModule : ModuleBase
     {
-        private DiscordSocketClient _client;
-
-        public ExampleModule(DiscordSocketClient client)
-        {
-            _client = client;
-        }
-        
         [Command("say"), Alias("s")]
         [Remarks("Make the bot say something")]
         [MinPermissions(AccessLevel.ServerAdmin)]
-        public async Task Say(IUserMessage msg, [Remainder]string text)
+        public async Task Say([Remainder]string text)
         {
-            await msg.Channel.SendMessageAsync(text);
+            await ReplyAsync(text);
         }
 
-        [Module("set"), Name("Example")]
-        public class Set
+        [Group("set"), Name("Example")]
+        public class Set : ModuleBase
         {
-            private DiscordSocketClient _client;
-
-            public Set(DiscordSocketClient client)
-            {
-                _client = client;
-            }
-
             [Command("nick")]
             [Remarks("Make the bot say something")]
             [MinPermissions(AccessLevel.User)]
-            public async Task Nick(IUserMessage msg, [Remainder]string name)
+            public async Task Nick([Remainder]string name)
             {
-                var user = msg.Author as IGuildUser;
+                var user = Context.User as SocketGuildUser;
                 await user.ModifyAsync(x => x.Nickname = name);
 
-                await msg.Channel.SendMessageAsync($"{user.Mention} I changed your name to **{name}**");
+                await ReplyAsync($"{user.Mention} I changed your name to **{name}**");
             }
 
             [Command("botnick")]
             [Remarks("Make the bot say something")]
             [MinPermissions(AccessLevel.ServerOwner)]
-            public async Task BotNick(IUserMessage msg, [Remainder]string name)
+            public async Task BotNick([Remainder]string name)
             {
-                var guild = (msg.Channel as IGuildChannel)?.Guild;
-                var self = await guild.GetCurrentUserAsync();
+                var self = await Context.Guild.GetCurrentUserAsync();
                 await self.ModifyAsync(x => x.Nickname = name);
 
-                await msg.Channel.SendMessageAsync($"I changed my name to **{name}**");
+                await ReplyAsync($"I changed my name to **{name}**");
             }
         }
     }
