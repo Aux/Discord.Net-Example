@@ -28,24 +28,18 @@ namespace Example.Types
             Token = "";
         }
 
-        /// <summary> Save the current configuration object to a file. </summary>
-        /// <param name="loc"> The configuration file's location. </param>
-        public void SaveFile(string loc)
+        /// <summary> Save the configuration to the specified file location. </summary>
+        public void Save(string dir = "data/configuration.json")
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-
-            if (!File.Exists(loc))
-                File.Create(loc).Close();
-
-            File.WriteAllText(loc, json);
+            File.WriteAllText(dir, ToJson());
         }
 
-        /// <summary> Load the information saved in your configuration file. </summary>
-        /// <param name="loc"> The configuration file's location. </param>
-        public static Configuration LoadFile(string loc)
-        {
-            string json = File.ReadAllText(loc);
-            return JsonConvert.DeserializeObject<Configuration>(json);
-        }
+        /// <summary> Load the configuration from the specified file location. </summary>
+        public static Configuration Load(string dir = "data/configuration.json")
+            => JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(dir));
+
+        /// <summary> Convert the configuration to a json string. </summary>
+        public string ToJson()
+            => JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }

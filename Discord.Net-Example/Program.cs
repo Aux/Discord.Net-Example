@@ -7,6 +7,7 @@ using Example.Modules;
 using Example.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,29 +16,14 @@ namespace Example
 {
     class Program
     {
-        static void Main(string[] args) => new Program().Start();
+        static void Main(string[] args) 
+            => new Program().Start();
 
         private DiscordClient _client;
-        private Configuration _config;
-
+        
         public void Start()
         {
-            const string configFile = "configuration.json";
-
-            try
-            {
-                _config = Configuration.LoadFile(configFile);           // Load the configuration from a saved file.
-            }
-            catch
-            {
-                _config = new Configuration();                          // Create a new configuration file if it doesn't exist.
-
-                Console.WriteLine("The example bot's configuration file has been created. Please enter a valid token.");
-                Console.Write("Token: ");
-
-                _config.Token = Console.ReadLine();                     // Read the user's token from the console.
-                _config.SaveFile(configFile);
-            }
+            EnsureConfigExists();                                       // Create the configuration file and load it into memory.
 
             _client = new DiscordClient(x =>                            // Create a new instance of DiscordClient
             {
@@ -46,7 +32,7 @@ namespace Example
             })
             .UsingCommands(x =>                                         // Configure the Commands extension
             {
-                x.PrefixChar = _config.Prefix;                          // Set the prefix from the configuration file
+                x.PrefixChar = Configuration.Load().Prefix;             // Set the prefix from the configuration file
                 x.HelpMode = HelpMode.Public;                           // Enable the automatic `!help` command.
             })
             .UsingPermissionLevels((u, c) => (int)GetPermission(u, c))  // Permission levels are used to check basic or custom permissions
@@ -56,14 +42,14 @@ namespace Example
                                                                         // Load modules into the Modules extension.
             _client.AddModule<ExampleModule>("Example", ModuleFilter.None);
             _client.AddModule<MathModule>("Math", ModuleFilter.None);
-                                                                        // Proper Login.md
-            _client.ExecuteAndWait(async () =>                
+            
+            _client.ExecuteAndWait(async () =>
             {
                 while (true)
                 {
                     try
                     {
-                        await _client.Connect(_config.Token, TokenType.Bot);
+                        await _client.Connect(Configuration.Load().Token, TokenType.Bot);
                         break;
                     } catch (Exception ex)
                     {
@@ -79,7 +65,7 @@ namespace Example
             if (user.IsBot)                                     // Prevent other bots from executing commands
                 return AccessLevel.Blocked;
 
-            if (_config.Owners.Contains(user.Id))               // Create a specific permission for bot owners
+            if (Configuration.Load().Owners.Contains(user.Id))  // Create a specific permission for bot owners
                 return AccessLevel.BotOwner;
 
             if (!channel.IsPrivate)                             // Make sure the command isn't executed in a PM.
@@ -95,6 +81,27 @@ namespace Example
             }
 
             return AccessLevel.User;                            // If nothing else fits return a default permission.
+        }
+
+        private void EnsureConfigExists()
+        {
+            if (!Directory.Exists("data"))                      // Check if the data folder exists.
+                Directory.CreateDirectory("data");              // Create the data folder.
+
+            string loc = "data/configuration.json";             // Save the file location of the configuration to a string.
+
+            if (!File.Exists(loc))                              // Check if the configuration file exists.
+            {
+                var config = new Configuration();               // Create a new configuration object.
+
+                Console.WriteLine("The configuration file has been created at 'data\\configuration.json', " +
+                              "please enter your information and restart Examplebot.");
+                Console.Write("Token: ");
+
+                config.Token = Console.ReadLine();              // Read the bot token from console.
+                config.Save();                                  // Save the new configuration object to file.
+            }
+            Console.WriteLine("Configuration Loaded...");
         }
     }
 }
