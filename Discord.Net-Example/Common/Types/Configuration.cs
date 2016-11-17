@@ -26,7 +26,7 @@ namespace Example.Types
 
         public Configuration()
         {
-            Prefix = '!';
+            Prefix = "!";
             Owners = new ulong[] { 0 };
             Token = "";
         }
