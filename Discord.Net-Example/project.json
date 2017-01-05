@@ -7,11 +7,16 @@
     "dependencies": {
         "Discord.Net": "1.0.0-rc-00544",
         "Discord.Net.Commands": "1.0.0-rc-00544",
-        "Microsoft.NETCore.App": "1.0.1"
+        "Microsoft.NETCore.App": "1.1.0"
     },
 
     "runtimes": {
-        "win10-x64": {}
+        "win7-x64": {},
+        "win7-x86": {},
+        "win81-x64": {},
+        "win81-x86": {},
+        "win10-x64": {},
+        "win10-x86": {}
     },
 
     "frameworks": {
