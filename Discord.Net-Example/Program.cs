@@ -13,6 +13,7 @@ namespace Example
             => new Program().Start().GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
+        private CommandHandler _commands;
 
         public async Task Start()
         {
@@ -20,7 +21,7 @@ namespace Example
                                                              // Create a new instance of DiscordSocketClient.
             _client = new DiscordSocketClient(new DiscordSocketConfig()
             {
-                LogLevel = LogSeverity.Info                  // Specify console log information level.
+                LogLevel = LogSeverity.Verbose                  // Specify console verbose information level.
             });
 
             _client.Log += (l)                               // Register the console log event.
@@ -28,7 +29,10 @@ namespace Example
                 => Console.WriteLine($"[{l.Severity}] {l.Source}: {l.Exception?.ToString() ?? l.Message}"));
                                                              
             await _client.LoginAsync(TokenType.Bot, Configuration.Load().Token);
-            await _client.ConnectAsync();                    
+            await _client.ConnectAsync();
+
+            _commands = new CommandHandler();               // Initialize the command handler service
+            await _commands.Install(_client);
             
             await Task.Delay(-1);                            // Prevent the console window from closing.
         }
