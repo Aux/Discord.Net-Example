@@ -1,10 +1,8 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using Example.Enums;
 using Example.Types;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +22,7 @@ namespace Example.Attributes
             Level = level;
         }
 
-        public override Task<PreconditionResult> CheckPermissions(CommandContext context, CommandInfo command, IDependencyMap map)
+        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IDependencyMap map)
         {
             var access = GetPermission(context);            // Get the acccesslevel for this context
 
@@ -34,7 +32,7 @@ namespace Example.Attributes
                 return Task.FromResult(PreconditionResult.FromError("Insufficient permissions."));
         }
         
-        public AccessLevel GetPermission(CommandContext c)
+        public AccessLevel GetPermission(ICommandContext c)
         {
             if (c.User.IsBot)                                    // Prevent other bots from executing commands.
                 return AccessLevel.Blocked;

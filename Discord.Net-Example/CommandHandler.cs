@@ -1,17 +1,12 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using Example.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Example
 {
-    /// <summary>
-    /// Detect whether a message is a command, then execute it.
-    /// </summary>
+    /// <summary> Detect whether a message is a command, then execute it. </summary>
     public class CommandHandler
     {
         private DiscordSocketClient _client;
@@ -22,7 +17,7 @@ namespace Example
             _client = c;                                            // Save an instance of the discord client.
             _cmds = new CommandService();                           // Create a new instance of the commandservice.
             
-            await _cmds.AddModules(Assembly.GetEntryAssembly());    // Load all modules from the assembly.
+            await _cmds.AddModulesAsync(Assembly.GetEntryAssembly());    // Load all modules from the assembly.
             
             _client.MessageReceived += HandleCommand;               // Register the messagereceived event to handle commands.
         }
@@ -38,7 +33,7 @@ namespace Example
                 if (msg.HasStringPrefix(Configuration.Load().Prefix, ref argPos) ||
                     msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
                 {                                                   // Try and execute a command with the given context.
-                    var result = await _cmds.Execute(context, argPos);
+                    var result = await _cmds.ExecuteAsync(context, argPos);
 
                     if (!result.IsSuccess)                          // If execution failed, reply with the error message.
                         await context.Channel.SendMessageAsync(result.ToString());
