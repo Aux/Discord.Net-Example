@@ -8,7 +8,7 @@ namespace Example.Modules
 {
     [Name("Moderator")]
     [RequireContext(ContextType.Guild)]
-    public class ModeratorModule : ModuleBase
+    public class ModeratorModule : ModuleBase<SocketCommandContext>
     {
         [Command("kick")]
         [Remarks("Kick the specified user.")]

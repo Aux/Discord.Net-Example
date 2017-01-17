@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Example.Modules
 {
     [Name("Math")]
-    public class MathModule : ModuleBase
+    public class MathModule : ModuleBase<SocketCommandContext>
     {
         [Command("isinteger")]
         [Remarks("Check if the input text is a whole number.")]

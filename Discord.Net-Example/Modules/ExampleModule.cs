@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Example.Modules
 {
     [Name("Example")]
-    public class ExampleModule : ModuleBase
+    public class ExampleModule : ModuleBase<SocketCommandContext>
     {
         [Command("say"), Alias("s")]
         [Remarks("Make the bot say something")]
