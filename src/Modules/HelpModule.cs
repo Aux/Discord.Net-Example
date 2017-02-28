@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Example.Types;
 using System.Linq;
 using System.Threading.Tasks;
 

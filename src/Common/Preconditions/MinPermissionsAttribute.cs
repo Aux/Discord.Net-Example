@@ -1,12 +1,10 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Example.Enums;
-using Example.Types;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Example.Attributes
+namespace Example.Preconditions
 {
     /// <summary>
     /// Set the minimum permission required to use a module or command

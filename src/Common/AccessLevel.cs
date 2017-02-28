@@ -1,4 +1,4 @@
-﻿namespace Example.Enums
+﻿namespace Example
 {
     /// <summary>
     /// The enum used to specify permission levels. A lower

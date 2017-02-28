@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Example.Types;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -25,20 +24,18 @@ namespace Example
         private async Task HandleCommand(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
-            if (msg == null)                                    // Check if the received message is from a user.
+            if (msg == null)                                          // Check if the received message is from a user.
                 return;
-
-            var map = new DependencyMap();                      // Create a new dependecy map.
-            map.Add(_cmds);
+            
             var context = new SocketCommandContext(_client, msg);     // Create a new command context.
 
-            int argPos = 0;                                     // Check if the message has either a string or mention prefix.
+            int argPos = 0;                                           // Check if the message has either a string or mention prefix.
             if (msg.HasStringPrefix(Configuration.Load().Prefix, ref argPos) ||
                 msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
-            {                                                   // Try and execute a command with the given context.
-                var result = await _cmds.ExecuteAsync(context, argPos, map);
+            {                                                         // Try and execute a command with the given context.
+                var result = await _cmds.ExecuteAsync(context, argPos);
 
-                if (!result.IsSuccess)                          // If execution failed, reply with the error message.
+                if (!result.IsSuccess)                                // If execution failed, reply with the error message.
                     await context.Channel.SendMessageAsync(result.ToString());
             }
         }

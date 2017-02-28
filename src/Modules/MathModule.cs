@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
-using Example.Attributes;
-using Example.Enums;
+using Example.Preconditions;
 using System.Linq;
 using System.Threading.Tasks;
 

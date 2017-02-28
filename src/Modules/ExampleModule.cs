@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Example.Attributes;
-using Example.Enums;
+using Example.Preconditions;
 using System.Threading.Tasks;
 
 namespace Example.Modules
