@@ -11,17 +11,17 @@ namespace Example
         private DiscordSocketClient _client;
         private CommandService _cmds;
 
-        public async Task Install(DiscordSocketClient c)
+        public async Task InstallAsync(DiscordSocketClient c)
         {
             _client = c;                                                 // Save an instance of the discord client.
             _cmds = new CommandService();                                // Create a new instance of the commandservice.                              
             
             await _cmds.AddModulesAsync(Assembly.GetEntryAssembly());    // Load all modules from the assembly.
             
-            _client.MessageReceived += HandleCommand;                    // Register the messagereceived event to handle commands.
+            _client.MessageReceived += HandleCommandAsync;               // Register the messagereceived event to handle commands.
         }
 
-        private async Task HandleCommand(SocketMessage s)
+        private async Task HandleCommandAsync(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
             if (msg == null)                                          // Check if the received message is from a user.
