@@ -20,7 +20,7 @@ namespace Example.Preconditions
             Level = level;
         }
 
-        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IDependencyMap map)
+        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var access = GetPermission(context);            // Get the acccesslevel for this context
 
