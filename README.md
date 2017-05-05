@@ -5,6 +5,7 @@ An example bot for [Discord.Net 1.0](https://github.com/RogueException/Discord.N
 
 ### Other Examples  
 #### 1.0
+- [RC Example](https://github.com/Aux/Discord.Net-Example/tree/1.0-rc) by Auxesis
 - [Advanced Example](https://github.com/Aux/Dogey) by Auxesis
 - [DiscordExampleBot](https://github.com/420foxbot/DiscordExampleBot) by Foxbot  
 - [DiscordExampleBot.VB](https://github.com/420foxbot/DiscordExampleBot.VB) by Foxbot  
