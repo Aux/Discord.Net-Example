@@ -1,24 +1,20 @@
 ﻿using Discord.Commands;
-using Example.Preconditions;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Example.Modules
 {
     [Name("Math")]
+    [Summary("Do some math I guess")]
     public class MathModule : ModuleBase<SocketCommandContext>
     {
         [Command("isinteger")]
-        [Remarks("Check if the input text is a whole number.")]
-        [MinPermissions(AccessLevel.User)]
-        public async Task IsInteger(int number)
-        {
-            await ReplyAsync($"The text {number} is a number!");
-        }
-
+        [Summary("Check if the input text is a whole number.")]
+        public Task IsInteger(int number)
+            => ReplyAsync($"The text {number} is a number!");
+        
         [Command("multiply")]
-        [Remarks("Get the product of two numbers.")]
-        [MinPermissions(AccessLevel.User)]
+        [Summary("Get the product of two numbers.")]
         public async Task Say(int a, int b)
         {
             int product = a * b;
@@ -26,8 +22,7 @@ namespace Example.Modules
         }
 
         [Command("addmany")]
-        [Remarks("Get the sum of many numbers")]
-        [MinPermissions(AccessLevel.User)]
+        [Summary("Get the sum of many numbers")]
         public async Task Say(params int[] numbers)
         {
             int sum = numbers.Sum();

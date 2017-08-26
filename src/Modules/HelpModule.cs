@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,17 +8,19 @@ namespace Example.Modules
 {
     public class HelpModule : ModuleBase<SocketCommandContext>
     {
-        private CommandService _service;
+        private readonly CommandService _service;
+        private readonly IConfigurationRoot _config;
 
-        public HelpModule(CommandService service)           // Create a constructor for the commandservice dependency
+        public HelpModule(CommandService service, IConfigurationRoot config)
         {
             _service = service;
+            _config = config;
         }
 
         [Command("help")]
         public async Task HelpAsync()
         {
-            string prefix = Configuration.Load().Prefix;
+            string prefix = _config["prefix"];
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),
@@ -59,7 +62,7 @@ namespace Example.Modules
                 return;
             }
 
-            string prefix = Configuration.Load().Prefix;
+            string prefix = _config["prefix"];
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),
@@ -74,7 +77,7 @@ namespace Example.Modules
                 {
                     x.Name = string.Join(", ", cmd.Aliases);
                     x.Value = $"Parameters: {string.Join(", ", cmd.Parameters.Select(p => p.Name))}\n" + 
-                              $"Remarks: {cmd.Remarks}";
+                              $"Summary: {cmd.Summary}";
                     x.IsInline = false;
                 });
             }

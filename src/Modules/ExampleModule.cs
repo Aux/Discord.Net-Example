@@ -1,6 +1,6 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
-using Example.Preconditions;
 using System.Threading.Tasks;
 
 namespace Example.Modules
@@ -9,36 +9,28 @@ namespace Example.Modules
     public class ExampleModule : ModuleBase<SocketCommandContext>
     {
         [Command("say"), Alias("s")]
-        [Remarks("Make the bot say something")]
-        [MinPermissions(AccessLevel.ServerAdmin)]
-        public async Task Say([Remainder]string text)
-        {
-            await ReplyAsync(text);
-        }
-
+        [Summary("Make the bot say something")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public Task Say([Remainder]string text)
+            => ReplyAsync(text);
+        
         [Group("set"), Name("Example")]
+        [RequireContext(ContextType.Guild)]
         public class Set : ModuleBase
         {
-            [Command("nick")]
-            [Remarks("Make the bot say something")]
-            [MinPermissions(AccessLevel.User)]
-            public async Task Nick([Remainder]string name)
+            [Command("nick"), Priority(1)]
+            [Summary("Change your nickname to the specified text")]
+            [RequireUserPermission(GuildPermission.ChangeNickname)]
+            public Task Nick([Remainder]string name)
+                => Nick(Context.User as SocketGuildUser, name);
+
+            [Command("nick"), Priority(0)]
+            [Summary("Change another user's nickname to the specified text")]
+            [RequireUserPermission(GuildPermission.ManageNicknames)]
+            public async Task Nick(SocketGuildUser user, [Remainder]string name)
             {
-                var user = Context.User as SocketGuildUser;
                 await user.ModifyAsync(x => x.Nickname = name);
-
                 await ReplyAsync($"{user.Mention} I changed your name to **{name}**");
-            }
-
-            [Command("botnick")]
-            [Remarks("Make the bot say something")]
-            [MinPermissions(AccessLevel.ServerOwner)]
-            public async Task BotNick([Remainder]string name)
-            {
-                var self = await Context.Guild.GetCurrentUserAsync();
-                await self.ModifyAsync(x => x.Nickname = name);
-
-                await ReplyAsync($"I changed my name to **{name}**");
             }
         }
     }

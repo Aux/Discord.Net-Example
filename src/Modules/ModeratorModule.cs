@@ -1,6 +1,6 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
-using Example.Preconditions;
 using System.Threading.Tasks;
 
 namespace Example.Modules
@@ -10,8 +10,8 @@ namespace Example.Modules
     public class ModeratorModule : ModuleBase<SocketCommandContext>
     {
         [Command("kick")]
-        [Remarks("Kick the specified user.")]
-        [MinPermissions(AccessLevel.ServerMod)]
+        [Summary("Kick the specified user.")]
+        [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task Kick([Remainder]SocketGuildUser user)
         {
             await ReplyAsync($"cya {user.Mention} :wave:");

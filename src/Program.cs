@@ -1,5 +1,8 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -10,29 +13,39 @@ namespace Example
         public static void Main(string[] args)
             => new Program().StartAsync().GetAwaiter().GetResult();
 
-        private DiscordSocketClient _client;
-        private CommandHandler _commands;
+        private IConfigurationRoot _config;
 
         public async Task StartAsync()
         {
-            Configuration.EnsureExists();                    // Ensure the configuration file has been created.
-                                                             // Create a new instance of DiscordSocketClient.
-            _client = new DiscordSocketClient(new DiscordSocketConfig()
-            {
-                LogLevel = LogSeverity.Verbose,              // Specify console verbose information level.
-                MessageCacheSize = 1000                      // Tell discord.net how long to store messages (per channel).
-            });
+            var builder = new ConfigurationBuilder()    // Begin building the configuration file
+                .SetBasePath(AppContext.BaseDirectory)  // Specify the location of the config
+                .AddJsonFile("_configuration.json");    // Add the configuration file
+            _config = builder.Build();                  // Build the configuration file
 
-            _client.Log += (l)                               // Register the console log event.
-                => Console.Out.WriteLineAsync(l.ToString());
-                                   
-            await _client.LoginAsync(TokenType.Bot, Configuration.Load().Token);
-            await _client.StartAsync();
+            var services = new ServiceCollection()      // Begin building the service provider
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig     // Add the discord client to the service provider
+                {
+                    LogLevel = LogSeverity.Verbose,
+                    MessageCacheSize = 1000     // Tell Discord.Net to cache 1000 messages per channel
+                }))
+                .AddSingleton(new CommandService(new CommandServiceConfig     // Add the command service to the service provider
+                {
+                    DefaultRunMode = RunMode.Async,     // Force all commands to run async
+                    LogLevel = LogSeverity.Verbose
+                }))
+                .AddSingleton<CommandHandler>()     // Add remaining services to the provider
+                .AddSingleton<LoggingService>()     
+                .AddSingleton<StartupService>()
+                .AddSingleton<Random>()             // You get better random with a single instance than by creating a new one every time you need it
+                .AddSingleton(_config);
 
-            _commands = new CommandHandler();                // Initialize the command handler service
-            await _commands.InstallAsync(_client);
-            
-            await Task.Delay(-1);                            // Prevent the console window from closing.
+            var provider = services.BuildServiceProvider();     // Create the service provider
+
+            provider.GetRequiredService<LoggingService>();      // Initialize the logging service, startup service, and command handler
+            await provider.GetRequiredService<StartupService>().StartAsync();
+            provider.GetRequiredService<CommandHandler>();
+
+            await Task.Delay(-1);     // Prevent the application from closing
         }
     }
 }
