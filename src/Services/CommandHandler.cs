@@ -32,7 +32,7 @@ namespace Example
         {
             var msg = s as SocketUserMessage;     // Ensure the message is from a user/bot
             if (msg == null) return;
-            if (msg.Author == _discord.CurrentUser) return;     // Ignore self when checking commands
+            if (msg.Author.Id == _discord.CurrentUser.Id) return;     // Ignore self when checking commands
             
             var context = new SocketCommandContext(_discord, msg);     // Create the command context
 
