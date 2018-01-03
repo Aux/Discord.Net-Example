@@ -7,5 +7,4 @@ An example bot for [Discord.Net 1.0](https://github.com/RogueException/Discord.N
 #### 1.0
 - [RC Example](https://github.com/Aux/Discord.Net-Example/tree/1.0-rc) by Auxesis
 - [DiscordBotBase](https://github.com/foxbot/DiscordBotBase/) by Foxbot
-- [Discord.Net Utility](https://github.com/foxbot/Discord.Net.UtilityBot) by Foxbot
 - [Dogey](https://github.com/Aux/Dogey) by Auxesis
