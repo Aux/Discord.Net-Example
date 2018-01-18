@@ -6,6 +6,6 @@ An example bot for [Discord.Net 1.0](https://github.com/RogueException/Discord.N
 ### Other Examples  
 #### 1.0
 - [RC Example](https://github.com/Aux/Discord.Net-Example/tree/1.0-rc) by Auxesis
-- [DiscordBotBase](https://github.com/foxbot/DiscordBotBase/) by Foxbot
-- [Discord.Net Utility](https://github.com/foxbot/Discord.Net.UtilityBot) by Foxbot
+- [DiscordBotBase](https://github.com/foxbot/DiscordBotBase/tree/csharp/) by foxbot
+- [Patek](https://github.com/foxbot/patek) by foxbot
 - [Dogey](https://github.com/Aux/Dogey) by Auxesis
