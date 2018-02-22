@@ -33,7 +33,7 @@ namespace Example
 
             var provider = services.BuildServiceProvider();     // Build the service provider
             provider.GetRequiredService<LoggingService>();      // Start the logging service
-			provider.GetRequiredService<CommandHandler>(); 		// Start the command handler service
+		provider.GetRequiredService<CommandHandler>(); 		// Start the command handler service
 
             await provider.GetRequiredService<StartupService>().StartAsync();       // Start the startup service
             await Task.Delay(-1);                               // Keep the program alive
