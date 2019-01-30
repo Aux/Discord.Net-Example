@@ -12,6 +12,7 @@ namespace Example.Modules
         [Command("kick")]
         [Summary("Kick the specified user.")]
         [RequireUserPermission(GuildPermission.KickMembers)]
+        [RequireBotPermission(GuildPermission.KickMembers)]
         public async Task Kick([Remainder]SocketGuildUser user)
         {
             await ReplyAsync($"cya {user.Mention} :wave:");
