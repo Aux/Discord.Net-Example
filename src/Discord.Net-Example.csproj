@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="1.6.0" />
+    <PackageReference Include="Unofficial.Microsoft.Extensions.Configuration.Yaml" Version="19.232.0.38254" />
   </ItemGroup>
 
   <ItemGroup>
