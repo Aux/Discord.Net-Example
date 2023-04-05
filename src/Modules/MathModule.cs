@@ -1,32 +1,27 @@
-﻿using Discord.Commands;
-using System.Linq;
+﻿using Discord.Interactions;
+using System;
 using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Name("Math")]
-    [Summary("Do some math I guess")]
-    public class MathModule : ModuleBase<SocketCommandContext>
+    public class MathModule : InteractionModuleBase<SocketInteractionContext>
     {
-        [Command("isinteger")]
-        [Summary("Check if the input text is a whole number.")]
-        public Task IsInteger(int number)
-            => ReplyAsync($"The text {number} is a number!");
+        [SlashCommand("isnumber", "Check if the input text is a number.")]
+        public Task IsNumber(double number)
+            => RespondAsync($"The text {number} is a number!", ephemeral: true);
         
-        [Command("multiply")]
-        [Summary("Get the product of two numbers.")]
-        public async Task Say(int a, int b)
+        [SlashCommand("multiply", "Get the product of two numbers.")]
+        public async Task Multiply(int a, int b)
         {
-            int product = a * b;
-            await ReplyAsync($"The product of `{a} * {b}` is `{product}`.");
+            long product = Math.BigMul(a, b);
+            await RespondAsync($"The product of `{a} * {b}` is `{product}`.", ephemeral: true);
         }
 
-        [Command("addmany")]
-        [Summary("Get the sum of many numbers")]
-        public async Task Say(params int[] numbers)
+        [SlashCommand("square", "Get the square root of a number.")]
+        public async Task Square(double number)
         {
-            int sum = numbers.Sum();
-            await ReplyAsync($"The sum of `{string.Join(", ", numbers)}` is `{sum}`.");
+            double sqrt = Math.Sqrt(number);
+            await RespondAsync($"The square root of `{number}` is `{sqrt}`.", ephemeral: true);
         }
     }
 }

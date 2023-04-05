@@ -1,37 +1,26 @@
 ﻿using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    [Name("Example")]
-    public class ExampleModule : ModuleBase<SocketCommandContext>
+    public class ExampleModule : InteractionModuleBase<SocketInteractionContext>
     {
-        [Command("say"), Alias("s")]
-        [Summary("Make the bot say something")]
+        [SlashCommand("say", "Make the bot say something.")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public Task Say([Remainder]string text)
+        public Task Say(string text)
             => ReplyAsync(text);
-        
-        [Group("set"), Name("Example")]
-        [RequireContext(ContextType.Guild)]
-        public class Set : ModuleBase
-        {
-            [Command("nick"), Priority(1)]
-            [Summary("Change your nickname to the specified text")]
-            [RequireUserPermission(GuildPermission.ChangeNickname)]
-            public Task Nick([Remainder]string name)
-                => Nick(Context.User as SocketGuildUser, name);
 
-            [Command("nick"), Priority(0)]
-            [Summary("Change another user's nickname to the specified text")]
-            [RequireUserPermission(GuildPermission.ManageNicknames)]
-            public async Task Nick(SocketGuildUser user, [Remainder]string name)
-            {
-                await user.ModifyAsync(x => x.Nickname = name);
-                await ReplyAsync($"{user.Mention} I changed your name to **{name}**");
-            }
+        [SlashCommand("nick", "Change a user's nickname to the specified text")]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageNicknames)]
+        [RequireBotPermission(GuildPermission.ChangeNickname)]
+        public async Task Nick(string name, SocketGuildUser user = null)
+        {
+            user ??= (SocketGuildUser)Context.User;
+            await user.ModifyAsync(x => x.Nickname = name);
+            await RespondAsync($"{user.Mention} I changed your name to **{name}**");
         }
     }
 }
